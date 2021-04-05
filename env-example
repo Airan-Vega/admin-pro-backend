@@ -1,2 +1,3 @@
 DB_CNN= URL de conexión a la base de datos
 PORT=
+JWT_SECRET=

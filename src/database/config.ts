@@ -6,6 +6,7 @@ export async function dbConnection() {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			useCreateIndex: true,
+			useFindAndModify: false,
 		});
 		console.log("Conexión DB exitosa");
 	} catch (error) {
