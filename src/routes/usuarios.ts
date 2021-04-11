@@ -1,12 +1,18 @@
+/*
+ * Usuarios
+ * Ruta: /api/usuarios
+ */
+
 import { Router } from "express";
 import { check } from "express-validator";
+import { wrap } from "async-middleware";
 import * as usuarioController from "../controllers/usuarios";
 import { validarCampos } from "../middlewares/validar-campos";
 import { validarJWT } from "../middlewares/validar-jwt";
 
 const router = Router();
 
-router.get("/", [validarJWT], usuarioController.getUsuarios);
+router.get("/", [validarJWT], wrap(usuarioController.getUsuarios));
 router.post(
 	"/",
 	[
@@ -15,7 +21,7 @@ router.post(
 		check("email", "El email es obligatorio").isEmail(),
 		validarCampos,
 	],
-	usuarioController.crearUsuarios
+	wrap(usuarioController.crearUsuario)
 );
 router.put(
 	"/:id",
@@ -26,9 +32,9 @@ router.put(
 		check("role", "El role es obligatorio").not().isEmpty(),
 		validarCampos,
 	],
-	usuarioController.actualizarUsuario
+	wrap(usuarioController.actualizarUsuario)
 );
 
-router.delete("/:id", [validarJWT], usuarioController.borrarUsuario);
+router.delete("/:id", [validarJWT], wrap(usuarioController.borrarUsuario));
 
 module.exports = router;

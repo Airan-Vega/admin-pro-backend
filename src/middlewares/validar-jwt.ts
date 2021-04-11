@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 export function validarJWT(req: Request, res: Response, next: NextFunction) {
-	// Leer el TOKEN (Lo leemos de los Headers)
-	const token = req.header("x-token");
+	// Leer el TOKEN (Lo leemos de los Headers), pero también se puede leer de la url
+	const token = req.header("x-token") || req.params.token;
 	if (!token) {
 		return res.status(401).json({
 			ok: false,
@@ -12,6 +12,7 @@ export function validarJWT(req: Request, res: Response, next: NextFunction) {
 	}
 	try {
 		const { uid }: any = jwt.verify(token, process.env.JWT_SECRET);
+		req.uid = uid;
 
 		next();
 	} catch (error) {

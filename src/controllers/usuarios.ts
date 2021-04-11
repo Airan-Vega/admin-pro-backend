@@ -5,14 +5,20 @@ import { UsuarioModel, Usuario } from "../models/usuario";
 import { generarJWT } from "../helpers/jwt";
 
 export async function getUsuarios(req: Request, res: Response) {
+	const from: number = Number(req.query.from) || 0;
+
 	try {
-		const usuarios: DocumentType<Usuario>[] = await UsuarioModel.find(
-			{},
-			"nombre email role google"
-		);
+		const [usuarios, total] = await Promise.all([
+			/*********** Promesa 1 ****************/
+			UsuarioModel.find({}, "nombre email role google img").skip(from).limit(5),
+			/*********** Promesa 2 ****************/
+			UsuarioModel.estimatedDocumentCount(),
+		]);
+
 		return res.json({
 			ok: true,
 			usuarios,
+			total,
 		});
 	} catch (error) {
 		console.log(error);
@@ -23,7 +29,7 @@ export async function getUsuarios(req: Request, res: Response) {
 	}
 }
 
-export async function crearUsuarios(req: Request, res: Response) {
+export async function crearUsuario(req: Request, res: Response) {
 	const { email, password } = req.body;
 	try {
 		const existeEmail: DocumentType<Usuario> = await UsuarioModel.findOne({

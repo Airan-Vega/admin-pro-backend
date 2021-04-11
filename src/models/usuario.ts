@@ -1,6 +1,5 @@
 import { DocumentType } from "@typegoose/typegoose";
 import {
-	Ref,
 	prop,
 	modelOptions,
 	getModelForClass,
