@@ -8,6 +8,7 @@ import { check } from "express-validator";
 import { wrap } from "async-middleware";
 import * as authController from "../controllers/auth";
 import { validarCampos } from "../middlewares/validar-campos";
+import { validarJWT } from "../middlewares/validar-jwt";
 
 const router = Router();
 
@@ -29,5 +30,7 @@ router.post(
 	],
 	wrap(authController.googleSignIn)
 );
+
+router.get("/renew", [validarJWT], wrap(authController.renewToken));
 
 module.exports = router;

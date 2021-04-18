@@ -89,3 +89,13 @@ export async function googleSignIn(req: Request, res: Response) {
 		});
 	}
 }
+
+export async function renewToken(req: Request, res: Response) {
+	const uid = req.uid;
+	// Generar el TOKEN
+	const token = await generarJWT(uid);
+	res.json({
+		ok: true,
+		token,
+	});
+}
