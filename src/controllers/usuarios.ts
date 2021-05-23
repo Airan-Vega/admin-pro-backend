@@ -95,8 +95,14 @@ export async function actualizarUsuario(req: Request, res: Response) {
 				});
 			}
 		}
-
-		campos.email = email;
+		if (!usuarioDB.google) {
+			campos.email = email;
+		} else if (usuarioDB.email !== email) {
+			return res.status(404).json({
+				ok: false,
+				msg: "Usuarios de Google no pueden cambiar su correo",
+			});
+		}
 
 		const usuarioActualizado = await UsuarioModel.findByIdAndUpdate(
 			uid,

@@ -33,6 +33,8 @@ export class Usuario {
 	role: string;
 	@prop({ default: false })
 	google: boolean;
+	@prop({ default: false })
+	terms: boolean;
 }
 
 export const UsuarioModel = getModelForClass(Usuario);

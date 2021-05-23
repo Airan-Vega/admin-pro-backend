@@ -94,8 +94,12 @@ export async function renewToken(req: Request, res: Response) {
 	const uid = req.uid;
 	// Generar el TOKEN
 	const token = await generarJWT(uid);
+
+	const usuario = await UsuarioModel.findById(uid);
+
 	res.json({
 		ok: true,
 		token,
+		usuario,
 	});
 }
