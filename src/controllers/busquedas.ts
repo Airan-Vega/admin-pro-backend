@@ -1,11 +1,20 @@
 import { Request, Response } from "express";
-import { UsuarioModel } from "../models/usuario";
-import { MedicoModel } from "../models/medico";
-import { HospitalModel } from "../models/hospital";
+import { UsuarioModel, Usuario } from "../models/usuario";
+import { MedicoModel, Medico } from "../models/medico";
+import { HospitalModel, Hospital } from "../models/hospital";
 
 export async function getTodo(req: Request, res: Response) {
 	const busqueda = req.params.busqueda;
-	const regex = new RegExp(busqueda, "i");
+	// En las busquedas se ignoro los acentos, mayusculas y minusculas
+	const regex = new RegExp(
+		busqueda
+			.replace(/a/g, "[a,á,à,ä]")
+			.replace(/e/g, "[e,é,ë]")
+			.replace(/i/g, "[i,í,ï]")
+			.replace(/o/g, "[o,ó,ö,ò]")
+			.replace(/u/g, "[u,ü,ú,ù]"),
+		"i"
+	);
 
 	const [usuarios, medicos, hospitales] = await Promise.all([
 		UsuarioModel.find({
@@ -31,8 +40,20 @@ export async function getTodo(req: Request, res: Response) {
 export async function getDocumentosColeccion(req: Request, res: Response) {
 	const tabla = req.params.tabla;
 	const busqueda = req.params.busqueda;
-	const regex = new RegExp(busqueda, "i");
-	let data = [];
+	// En las busquedas se ignoro los acentos, mayusculas y minusculas
+	const regex = new RegExp(
+		busqueda
+			.replace(/a/g, "[a,á,à,ä]")
+			.replace(/e/g, "[e,é,ë]")
+			.replace(/i/g, "[i,í,ï]")
+			.replace(/o/g, "[o,ó,ö,ò]")
+			.replace(/u/g, "[u,ü,ú,ù]"),
+		"i"
+	);
+	let data: Medico | Hospital | Usuario[] = [];
+	const from: number = Number(req.query.from) || 0;
+
+	let total: number;
 
 	switch (tabla) {
 		case "Medico":
@@ -40,19 +61,41 @@ export async function getDocumentosColeccion(req: Request, res: Response) {
 				nombre: regex,
 			})
 				.populate("usuario", "nombre img")
-				.populate("hospital", "nombre img");
+				.populate("hospital", "nombre img")
+				.skip(from)
+				.limit(5)
+				.lean();
+
+			total = await MedicoModel.find({
+				nombre: regex,
+			}).countDocuments();
 			break;
 
 		case "Hospital":
 			data = await HospitalModel.find({
 				nombre: regex,
-			}).populate("usuario", "nombre img");
+			})
+				.populate("usuario", "nombre img")
+				.skip(from)
+				.limit(5)
+				.lean();
+
+			total = await HospitalModel.find({
+				nombre: regex,
+			}).countDocuments();
 			break;
 
 		case "Usuario":
 			data = await UsuarioModel.find({
 				nombre: regex,
-			});
+			})
+				.skip(from)
+				.limit(5)
+				.lean();
+
+			total = await UsuarioModel.find({
+				nombre: regex,
+			}).countDocuments();
 
 			break;
 
@@ -66,5 +109,6 @@ export async function getDocumentosColeccion(req: Request, res: Response) {
 	return res.json({
 		ok: true,
 		resultados: data,
+		total,
 	});
 }

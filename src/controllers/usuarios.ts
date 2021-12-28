@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import { DocumentType } from "@typegoose/typegoose";
-import { UsuarioModel, Usuario } from "../models/usuario";
+import { UsuarioModel } from "../models/usuario";
 import { generarJWT } from "../helpers/jwt";
 
 export async function getUsuarios(req: Request, res: Response) {
@@ -10,7 +9,10 @@ export async function getUsuarios(req: Request, res: Response) {
 	try {
 		const [usuarios, total] = await Promise.all([
 			/*********** Promesa 1 ****************/
-			UsuarioModel.find({}, "nombre email role google img").skip(from).limit(5),
+			UsuarioModel.find({}, "nombre email role google img")
+				.skip(from)
+				.limit(5)
+				.lean(),
 			/*********** Promesa 2 ****************/
 			UsuarioModel.estimatedDocumentCount(),
 		]);
@@ -32,16 +34,17 @@ export async function getUsuarios(req: Request, res: Response) {
 export async function crearUsuario(req: Request, res: Response) {
 	const { email, password } = req.body;
 	try {
-		const existeEmail: DocumentType<Usuario> = await UsuarioModel.findOne({
+		const existeEmail = await UsuarioModel.findOne({
 			email,
 		});
+
 		if (existeEmail) {
 			return res.status(400).json({
 				ok: false,
 				msg: "Este correo ya existe en la DB",
 			});
 		}
-		const usuario: DocumentType<Usuario> = new UsuarioModel(req.body);
+		const usuario = new UsuarioModel(req.body);
 
 		// Encriptar contraseña
 		const salt = bcrypt.genSaltSync();
@@ -72,7 +75,7 @@ export async function actualizarUsuario(req: Request, res: Response) {
 	const uid: string = req.params.id;
 
 	try {
-		const usuarioDB: DocumentType<Usuario> = await UsuarioModel.findById(uid);
+		const usuarioDB = await UsuarioModel.findById(uid).lean();
 		if (!usuarioDB) {
 			return res.status(404).json({
 				ok: false,
@@ -82,7 +85,7 @@ export async function actualizarUsuario(req: Request, res: Response) {
 
 		// Actualización
 
-		// Yo no quiero actualizar ni el campo de password no el de google, por lo que
+		// Yo no quiero actualizar ni el campo de password ni el de google, por lo que
 		// los saco del objeto campo
 		const { password, google, email, ...campos } = req.body;
 
@@ -127,7 +130,7 @@ export async function borrarUsuario(req: Request, res: Response) {
 	const uid: string = req.params.id;
 
 	try {
-		const usuarioDB: DocumentType<Usuario> = await UsuarioModel.findById(uid);
+		const usuarioDB = await UsuarioModel.findById(uid);
 
 		if (!usuarioDB) {
 			return res.status(404).json({

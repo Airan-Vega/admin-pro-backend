@@ -1,34 +1,32 @@
-import { DocumentType } from "@typegoose/typegoose";
+import { Schema, model, Document, Types } from "mongoose";
 import { Usuario } from "./usuario";
 import { Hospital } from "./hospital";
-import {
-	Ref,
-	prop,
-	modelOptions,
-	getModelForClass,
-	Severity,
-} from "@typegoose/typegoose";
 
-@modelOptions({
-	schemaOptions: {
-		collection: "Medico",
-		toJSON: {
-			transform: (doc: DocumentType<Medico>, object) => {
-				delete object.__v;
-			},
-		},
-	},
-	options: { allowMixed: Severity.ALLOW },
-})
-export class Medico {
-	@prop({ required: true })
+export interface Medico extends Document {
 	nombre: string;
-	@prop()
 	img?: string;
-	@prop({ ref: "Usuario", required: true })
-	usuario: Ref<Usuario>;
-	@prop({ ref: "Hospital", required: true })
-	hospital: Ref<Hospital>;
+	usuario: Usuario | Types.ObjectId;
+	hospital: Hospital | Types.ObjectId;
 }
 
-export const MedicoModel = getModelForClass(Medico);
+const schema = new Schema<Medico>({
+	nombre: {
+		type: String,
+		required: true,
+	},
+	img: {
+		type: String,
+	},
+	usuario: {
+		type: Types.ObjectId,
+		ref: "Usuario",
+		required: true,
+	},
+	hospital: {
+		type: Types.ObjectId,
+		ref: "Hospital",
+		required: true,
+	},
+});
+
+export const MedicoModel = model("Medico", schema, "Medico");

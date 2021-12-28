@@ -12,7 +12,10 @@ import { validarJWT } from "../middlewares/validar-jwt";
 
 const router = Router();
 
-router.get("/", [], wrap(medicoController.getMedicos));
+router.get("/", [validarJWT], wrap(medicoController.getMedicos));
+
+router.get("/:id", [validarJWT], wrap(medicoController.getMedicoById));
+
 router.post(
 	"/",
 	[

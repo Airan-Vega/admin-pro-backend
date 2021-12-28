@@ -1,40 +1,45 @@
-import { DocumentType } from "@typegoose/typegoose";
-import {
-	prop,
-	modelOptions,
-	getModelForClass,
-	Severity,
-} from "@typegoose/typegoose";
+import { Schema, model, Document } from "mongoose";
 
-@modelOptions({
-	schemaOptions: {
-		collection: "Usuario",
-		toJSON: {
-			transform: (doc: DocumentType<Usuario>, object) => {
-				delete object.__v;
-				delete object.password;
-				object.uid = object._id;
-				delete object._id;
-			},
-		},
-	},
-	options: { allowMixed: Severity.ALLOW },
-})
-export class Usuario {
-	@prop({ required: true })
+export interface Usuario extends Document {
 	nombre: string;
-	@prop({ required: true, unique: true })
 	email: string;
-	@prop({ required: true })
 	password: string;
-	@prop()
 	img?: string;
-	@prop({ required: true, default: "USER_ROLE" })
 	role: string;
-	@prop({ default: false })
 	google: boolean;
-	@prop({ default: false })
 	terms: boolean;
 }
 
-export const UsuarioModel = getModelForClass(Usuario);
+let schema = new Schema<Usuario>({
+	nombre: {
+		type: String,
+		required: true,
+	},
+	email: {
+		type: String,
+		required: true,
+		unique: true,
+	},
+	password: {
+		type: String,
+		required: true,
+	},
+	img: {
+		type: String,
+	},
+	role: {
+		type: String,
+		required: true,
+		default: "USER_ROLE",
+	},
+	google: {
+		type: Boolean,
+		default: false,
+	},
+	terms: {
+		type: Boolean,
+		default: false,
+	},
+});
+
+export const UsuarioModel = model("Usuario", schema, "Usuario");

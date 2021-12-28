@@ -1,17 +1,24 @@
 import { Request, Response } from "express";
-import { DocumentType } from "@typegoose/typegoose";
-import { HospitalModel, Hospital } from "../models/hospital";
+import { HospitalModel } from "../models/hospital";
 
 export async function getHospitales(req: Request, res: Response) {
-	const hospitales: DocumentType<Hospital>[] = await HospitalModel.find().populate(
-		"usuario",
-		"nombre img"
-	);
+	const from: number = Number(req.query.from) || 0;
+	const [hospitales, total] = await Promise.all([
+		/*********** Promesa 1 ****************/
+		HospitalModel.find({}, "nombre img")
+			.populate("usuario", "nombre img")
+			.skip(from)
+			.limit(5)
+			.lean(),
+		/*********** Promesa 2 ****************/
+		HospitalModel.estimatedDocumentCount(),
+	]);
 
 	try {
 		return res.json({
 			ok: true,
 			hospitales,
+			total,
 		});
 	} catch (error) {
 		console.log(error);
@@ -23,7 +30,7 @@ export async function getHospitales(req: Request, res: Response) {
 }
 export async function crearHospital(req: Request, res: Response) {
 	const uid = req.uid;
-	const hospital: DocumentType<Hospital> = new HospitalModel({
+	const hospital = new HospitalModel({
 		usuario: uid,
 		...req.body, // Aqui desestructuro el objeto que le paso por el body y solo pongo sus valores.
 	});

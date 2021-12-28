@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import { DocumentType } from "@typegoose/typegoose";
-import { UsuarioModel, Usuario } from "../models/usuario";
+import { UsuarioModel } from "../models/usuario";
 import { generarJWT } from "../helpers/jwt";
 import { googleVerify } from "../helpers/google-verify";
 
@@ -9,7 +8,7 @@ export async function login(req: Request, res: Response) {
 	const { email, password } = req.body;
 
 	try {
-		const usuarioDB: DocumentType<Usuario> = await UsuarioModel.findOne({
+		const usuarioDB = await UsuarioModel.findOne({
 			email,
 		});
 
@@ -55,7 +54,7 @@ export async function googleSignIn(req: Request, res: Response) {
 		// Verificamos si el email con el que se quiere registrar el usuario,
 		// existe en la base de datos
 		const usuarioDB = await UsuarioModel.findOne({ email });
-		let usuario: DocumentType<Usuario>;
+		let usuario;
 		if (!usuarioDB) {
 			// No existe el usuario
 			usuario = new UsuarioModel({
