@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import { UsuarioModel } from "../models/usuario";
+import { UsuarioModel, Usuario } from "../models/usuario";
 import { generarJWT } from "../helpers/jwt";
 import { googleVerify } from "../helpers/google-verify";
+import { getMenuFrontEnd } from "../helpers/menu-frontend";
 
 export async function login(req: Request, res: Response) {
 	const { email, password } = req.body;
 
 	try {
-		const usuarioDB = await UsuarioModel.findOne({
+		const usuarioDB: Usuario = await UsuarioModel.findOne({
 			email,
 		});
 
@@ -35,6 +36,7 @@ export async function login(req: Request, res: Response) {
 		return res.status(200).json({
 			ok: true,
 			token,
+			menu: getMenuFrontEnd(usuarioDB.role),
 		});
 	} catch (error) {
 		console.log(error);
@@ -53,7 +55,7 @@ export async function googleSignIn(req: Request, res: Response) {
 
 		// Verificamos si el email con el que se quiere registrar el usuario,
 		// existe en la base de datos
-		const usuarioDB = await UsuarioModel.findOne({ email });
+		const usuarioDB: Usuario = await UsuarioModel.findOne({ email });
 		let usuario;
 		if (!usuarioDB) {
 			// No existe el usuario
@@ -79,6 +81,7 @@ export async function googleSignIn(req: Request, res: Response) {
 		return res.json({
 			ok: true,
 			token,
+			menu: getMenuFrontEnd(usuarioDB.role),
 		});
 	} catch (error) {
 		console.log(error);
@@ -94,11 +97,12 @@ export async function renewToken(req: Request, res: Response) {
 	// Generar el TOKEN
 	const token = await generarJWT(uid);
 
-	const usuario = await UsuarioModel.findById(uid);
+	const usuario: Usuario = await UsuarioModel.findById(uid);
 
 	res.json({
 		ok: true,
 		token,
 		usuario,
+		menu: getMenuFrontEnd(usuario.role),
 	});
 }
