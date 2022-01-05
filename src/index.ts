@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import { dbConnection } from "./database/config";
 import routes from "./routes";
+import { Request, Response } from "express";
+import path from "path";
 
 // Crear el servidor express
 const app = express();
@@ -40,6 +42,11 @@ app.use(express.static("public"));
 
 // Rutas
 routes(app);
+
+// En el caso de que no se encuentre la ruta, que vuelva a ejecutarse el index.html
+app.get("*", (req: Request, res: Response) => {
+	res.sendFile(path.resolve(__dirname, "../public/index.html"));
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
