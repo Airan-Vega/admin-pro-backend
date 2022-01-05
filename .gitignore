@@ -3,18 +3,5 @@ node_modules
 
  .DS_Store
 
-src/uploads/hospitales/**.jpeg
-src/uploads/hospitales/**.jpg
-src/uploads/hospitales/**.png
-src/uploads/hospitales/**.gif
 
-src/uploads/medicos/**.jpeg
-src/uploads/medicos/**.jpg
-src/uploads/medicos/**.png
-src/uploads/medicos/**.gif
-
-src/uploads/usuarios/**.jpeg
-src/uploads/usuarios/**.jpg
-src/uploads/usuarios/**.png
-src/uploads/usuarios/**.gif
 
