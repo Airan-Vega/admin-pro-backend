@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "nodemon src/index.ts",
 		"build": "tsc",
-		"start": "npm run build && node dist/index.js",
+		"start-build": "npm run build && node dist/index.js",
+		"start": "node dist/index.js",
 		"lint": "tslint src/**/*.ts --fix"
 	},
 	"keywords": [],
@@ -16,7 +17,7 @@
 		"async-middleware": "^1.2.1",
 		"bcryptjs": "^2.4.3",
 		"cors": "^2.8.5",
-		"dotenv": "^10.0.0",
+		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"express-fileupload": "^1.2.1",
 		"express-validator": "^6.10.0",
