@@ -88,3 +88,4 @@ function retornarImagen(req, res) {
     });
 }
 exports.retornarImagen = retornarImagen;
+//# sourceMappingURL=uploads.js.map

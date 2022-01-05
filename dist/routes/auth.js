@@ -41,3 +41,4 @@ router.post("/google", [
 ], async_middleware_1.wrap(authController.googleSignIn));
 router.get("/renew", [validar_jwt_1.validarJWT], async_middleware_1.wrap(authController.renewToken));
 module.exports = router;
+//# sourceMappingURL=auth.js.map

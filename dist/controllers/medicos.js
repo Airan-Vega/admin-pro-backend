@@ -140,3 +140,4 @@ function borrarMedico(req, res) {
     });
 }
 exports.borrarMedico = borrarMedico;
+//# sourceMappingURL=medicos.js.map

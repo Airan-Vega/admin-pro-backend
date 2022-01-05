@@ -118,3 +118,4 @@ function borrarHospital(req, res) {
     });
 }
 exports.borrarHospital = borrarHospital;
+//# sourceMappingURL=hospitales.js.map

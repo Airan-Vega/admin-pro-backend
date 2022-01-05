@@ -17,3 +17,4 @@ const schema = new mongoose_1.Schema({
     },
 });
 exports.HospitalModel = mongoose_1.model("Hospital", schema, "Hospital");
+//# sourceMappingURL=hospital.js.map

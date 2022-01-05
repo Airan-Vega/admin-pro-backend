@@ -108,3 +108,4 @@ function getDocumentosColeccion(req, res) {
     });
 }
 exports.getDocumentosColeccion = getDocumentosColeccion;
+//# sourceMappingURL=busquedas.js.map

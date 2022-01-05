@@ -43,3 +43,4 @@ router.put("/:id", [
 ], async_middleware_1.wrap(hospitalController.actualizarHospital));
 router.delete("/:id", [validar_jwt_1.validarJWT], async_middleware_1.wrap(hospitalController.borrarHospital));
 module.exports = router;
+//# sourceMappingURL=hospitales.js.map

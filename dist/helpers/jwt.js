@@ -24,3 +24,4 @@ function generarJWT(uid) {
     });
 }
 exports.generarJWT = generarJWT;
+//# sourceMappingURL=jwt.js.map

@@ -31,3 +31,4 @@ const router = express_1.Router();
 router.get("/:busqueda", [validar_jwt_1.validarJWT], async_middleware_1.wrap(busquedaController.getTodo));
 router.get("/coleccion/:tabla/:busqueda", [validar_jwt_1.validarJWT], async_middleware_1.wrap(busquedaController.getDocumentosColeccion));
 module.exports = router;
+//# sourceMappingURL=busquedas.js.map

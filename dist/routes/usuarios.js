@@ -48,3 +48,4 @@ router.put("/:id", [
 ], async_middleware_1.wrap(usuarioController.actualizarUsuario));
 router.delete("/:id", [validar_jwt_1.validarJWT, validar_jwt_1.validarADMIN_ROLE], async_middleware_1.wrap(usuarioController.borrarUsuario));
 module.exports = router;
+//# sourceMappingURL=usuarios.js.map
