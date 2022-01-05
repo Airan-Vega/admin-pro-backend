@@ -52,4 +52,3 @@ router.put("/:id", [
 ], async_middleware_1.wrap(medicoController.actualizarMedico));
 router.delete("/:id", [validar_jwt_1.validarJWT], async_middleware_1.wrap(medicoController.borrarMedico));
 module.exports = router;
-//# sourceMappingURL=medicos.js.map

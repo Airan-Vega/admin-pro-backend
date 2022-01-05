@@ -10,4 +10,3 @@ exports.default = (app) => {
     app.use("/api/upload", require("./uploads"));
     app.use("/api/usuarios", require("./usuarios"));
 };
-//# sourceMappingURL=index.js.map

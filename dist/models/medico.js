@@ -22,4 +22,3 @@ const schema = new mongoose_1.Schema({
     },
 });
 exports.MedicoModel = mongoose_1.model("Medico", schema, "Medico");
-//# sourceMappingURL=medico.js.map

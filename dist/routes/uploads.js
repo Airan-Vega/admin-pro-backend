@@ -37,4 +37,3 @@ router.use(express_fileupload_1.default());
 router.put("/:tipo/:id", [validar_jwt_1.validarJWT], async_middleware_1.wrap(uploadController.fileUpload));
 router.get("/:tipo/:file", async_middleware_1.wrap(uploadController.retornarImagen));
 module.exports = router;
-//# sourceMappingURL=uploads.js.map

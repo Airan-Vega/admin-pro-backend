@@ -32,4 +32,3 @@ function dbConnection() {
     });
 }
 exports.dbConnection = dbConnection;
-//# sourceMappingURL=config.js.map

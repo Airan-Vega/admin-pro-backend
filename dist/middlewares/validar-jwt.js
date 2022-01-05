@@ -99,4 +99,3 @@ function validarADMIN_ROLE_O_MismoUsuario(req, res, next) {
     });
 }
 exports.validarADMIN_ROLE_O_MismoUsuario = validarADMIN_ROLE_O_MismoUsuario;
-//# sourceMappingURL=validar-jwt.js.map

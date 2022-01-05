@@ -26,4 +26,3 @@ function googleVerify(token) {
     });
 }
 exports.googleVerify = googleVerify;
-//# sourceMappingURL=google-verify.js.map

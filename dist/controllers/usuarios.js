@@ -170,4 +170,3 @@ function borrarUsuario(req, res) {
     });
 }
 exports.borrarUsuario = borrarUsuario;
-//# sourceMappingURL=usuarios.js.map

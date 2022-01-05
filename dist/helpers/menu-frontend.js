@@ -54,4 +54,3 @@ function getMenuFrontEnd(role = "USER_ROLE") {
     return menu;
 }
 exports.getMenuFrontEnd = getMenuFrontEnd;
-//# sourceMappingURL=menu-frontend.js.map

@@ -34,4 +34,3 @@ let schema = new mongoose_1.Schema({
     },
 });
 exports.UsuarioModel = mongoose_1.model("Usuario", schema, "Usuario");
-//# sourceMappingURL=usuario.js.map

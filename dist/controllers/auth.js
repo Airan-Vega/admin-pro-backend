@@ -117,4 +117,3 @@ function renewToken(req, res) {
     });
 }
 exports.renewToken = renewToken;
-//# sourceMappingURL=auth.js.map

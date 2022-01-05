@@ -13,4 +13,3 @@ function validarCampos(req, res, next) {
     next();
 }
 exports.validarCampos = validarCampos;
-//# sourceMappingURL=validar-campos.js.map

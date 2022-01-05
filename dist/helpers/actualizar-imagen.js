@@ -65,4 +65,3 @@ function actualizarImagen(tipo, id, nombreArchivo) {
     });
 }
 exports.actualizarImagen = actualizarImagen;
-//# sourceMappingURL=actualizar-imagen.js.map
