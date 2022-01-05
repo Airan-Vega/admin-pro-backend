@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const config_1 = require("./database/config");
 const routes_1 = __importDefault(require("./routes"));
+const path_1 = __importDefault(require("path"));
 // Crear el servidor express
 const app = express_1.default();
 ////////////////////// Middlewares /////////////////////////
@@ -34,6 +35,10 @@ config_1.dbConnection();
 app.use(express_1.default.static("public"));
 // Rutas
 routes_1.default(app);
+// En el caso de que no se encuentre la ruta, que vuelva a ejecutarse el index.html
+app.get("*", (req, res) => {
+    res.sendFile(path_1.default.resolve(__dirname, "../public/index.html"));
+});
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Servidor corriendo en puerto: ${port}`);
